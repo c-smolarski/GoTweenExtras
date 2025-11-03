@@ -5,8 +5,8 @@
     "description": "Tweening made easier in editor",
     "unity": "6000.0",
     "dependencies": {
-        "git@github.com:c-smolarski/GoTween.git": "0.0.7",
-        "git@github.com:c-smolarski/SmolTags.git": "0.0.1"
+        "com.isartdigital.gotween": "0.0.7",
+        "com.isartdigital.smoltags": "0.0.1"
     },
     "author": {
         "name": "Camille SMOLARSKI",
