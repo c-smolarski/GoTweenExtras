@@ -29,6 +29,7 @@ namespace GoTween.Extras
         #endregion
 
         private Coroutine _animationCoroutine;
+        private Tween _animTween;
 
         //----EDITOR METHODS----//
 
@@ -107,9 +108,11 @@ namespace GoTween.Extras
                 StopCoroutine(_animationCoroutine);
             _animationCoroutine = StartCoroutine(VisibilityCoroutine(lAwaiters, _disableOnOut && !pIn));
 
-            Tween lTween = new(this);
-            lTween.TweenAction(() => TweenTimer(lTween), Mathf.Infinity);
-            return new(lTween);
+            if (_animTween != null)
+                KillAnimTween();
+            _animTween = new(this);
+            _animTween.TweenAction(TweenTimer, Mathf.Infinity);
+            return new(_animTween);
         }
 
         private IEnumerator VisibilityCoroutine(List<WaitForTween> pAwaiters, bool pDisableOnEnd)
@@ -118,14 +121,21 @@ namespace GoTween.Extras
                 yield return Awaiter;
 
             _animationCoroutine = null;
+            KillAnimTween();
             if (pDisableOnEnd)
                 gameObject.SetActive(false);
         }
 
-        private void TweenTimer(Tween tween)
+        private void KillAnimTween()
+        {
+            _animTween.Kill();
+            _animTween = null;
+        }
+
+        private void TweenTimer()
         {
             if (!InAnimation)
-                tween.Kill();
+                KillAnimTween();
         }
     }
 }
